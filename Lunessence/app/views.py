@@ -10,6 +10,9 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.utils import timezone
 
-
+def login(req):
+    return render(req,'login.html')
+def register(req):
+    return render(req,'register.html')
 def user_home(req):
     return render(req,'user/user_home.html')
