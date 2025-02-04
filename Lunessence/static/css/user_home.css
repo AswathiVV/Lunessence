@@ -1,0 +1,151 @@
+
+.about-us-section {
+    color: #333; 
+      padding: 50px 15px;
+      background-color: #fff;
+    }
+    
+    .image-wrapper img {
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .text-wrapper {
+      text-align: left;
+    }
+    
+    .text-wrapper .btn-outline-secondary {
+      border: 1px solid #ddd;
+      color: #666;
+      font-weight: bold;
+    }
+    
+    .text-wrapper h2 {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #444;
+    }
+    
+    .text-wrapper .highlight {
+      color: #007bff; 
+    }
+    
+    .text-wrapper .description {
+      margin-top: 15px;
+      color: #666;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    .text-wrapper .features-list {
+      margin-top: 20px;
+      list-style: none;
+      padding: 0;
+    }
+    
+    .text-wrapper .features-list li {
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    
+    .text-wrapper .btn-primary {
+      background-color: #007bff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    
+    .text-wrapper .btn-primary:hover {
+      background-color: #0056b3;
+    }
+
+
+    .footer-section {
+        background-color: #fffaf3;
+        padding: 50px 15px;
+        color: #333;
+      }
+      
+      .footer-section h5 {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+        color: #444;
+      }
+      
+      .footer-section .brand-logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+      }
+      
+      .footer-section .brand-logo {
+        color: #d4a256;
+
+      }
+      
+      .footer-section p {
+        font-size: 0.9rem;
+        margin-top: 10px;
+      }
+      
+      .social-icons a {
+        font-size: 1.2rem;
+        color: #666;
+        margin-right: 10px;
+      }
+      
+      .social-icons a:hover {
+        color: #007bff;
+      }
+      
+      /* Special Facilities */
+      .footer-section ul {
+        list-style: none;
+        padding: 0;
+      }
+      
+      .footer-section ul li {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+      }
+      
+      /* Contact Info */
+      .footer-section ul li i {
+        margin-right: 10px;
+        color: #007bff;
+      }
+      
+      /* Social Gallery */
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      
+      .gallery img {
+        width: 100%;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+        transition: transform 0.3s ease;
+      }
+      
+      .gallery img:hover {
+        transform: scale(1.1);
+      }
+      
+      /* Footer Bottom */
+      .footer-bottom {
+        margin-top: 30px;
+        font-size: 0.8rem;
+      }
+      
+      .footer-bottom a {
+        color: #007bff;
+        text-decoration: none;
+      }
+      
+      .footer-bottom a:hover {
+        text-decoration: underline;
+      }    
