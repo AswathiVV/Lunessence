@@ -73,9 +73,31 @@ def user_home(req):
         return redirect(shop_login)
     
 def destination_wedding(request):
-    if 'user' in request.session:  # Check for user session
-        weddings = DestinationWedding.objects.all()  # Fetch all destination weddings
+    if 'user' in request.session: 
+        weddings = DestinationWedding.objects.all() 
         return render(request, 'user/destination_wedding.html', {'weddings': weddings})
     else:
-        return redirect('login')  # Redirect to login if session doesn't exist
- 
+        return redirect('login')  
+    
+# def view_cake(req,id):
+#      if 'user' in req.session:
+#         user=User.objects.get(username=req.session['user'])
+#         weddings=DestinationWedding.objects.get(pk=id)
+#         try:
+#             cart=Cart.objects.get(Cake=cake,user=user)
+#         except:
+#             cart=None    
+#         return render(req,'user/view_cakes.html',{'cake':cake,'cart':cart}) 
+#      else:
+#          return redirect(shop_login)      
+def view_des_wed(req,id):
+     if 'user' in req.session:
+        user=User.objects.get(username=req.session['user'])
+        weddings=DestinationWedding.objects.get(pk=id)
+        # try:
+        #     cart=Cart.objects.get(Cake=cake,user=user)
+        # except:
+        #     cart=None    
+        return render(req,'user/des_wed_details.html',{'DestinationWedding':weddings}) 
+     else:
+         return redirect(shop_home)   
