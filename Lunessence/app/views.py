@@ -69,3 +69,13 @@ def shop_home(req):
 def user_home(req):
     if 'user' in req.session:
         return render(req,'user/user_home.html')  
+    else:
+        return redirect(shop_login)
+    
+def destination_wedding(request):
+    if 'user' in request.session:  # Check for user session
+        weddings = DestinationWedding.objects.all()  # Fetch all destination weddings
+        return render(request, 'user/destination_wedding.html', {'weddings': weddings})
+    else:
+        return redirect('login')  # Redirect to login if session doesn't exist
+ 

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Destination Weddings</title>
+</head>
+<body>
+    <h1>Destination Weddings</h1>
+    <ul>
+        {% for wedding in weddings %}
+            <li>
+                <h2>{{ wedding.name }}</h2>
+                <h2>{{ wedding.about }}</h2>
+
+                <p>{{ wedding.location }}</p>
+                <p>Price: ${{ wedding.package_price }}</p>
+                <img src="{{ wedding.img.url }}" alt="{{ wedding.name }}" style="width:200px; height:auto;">
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
