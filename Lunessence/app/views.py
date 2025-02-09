@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate,login,logout
 from .models import *
 import os
@@ -101,3 +101,95 @@ def view_des_wed(req,id):
         return render(req,'user/des_wed_details.html',{'DestinationWedding':weddings}) 
      else:
          return redirect(shop_home)   
+
+# def add_to_wishlist(req,id):
+#      Product=DestinationWedding.objects.get(pk=id)
+#      print(Product)
+#      user=User.objects.get(username=req.session['user'])
+#      print(user)
+#      data=Cart.objects.create(user=user,cake=Product)
+#      data.save()
+#      return redirect(cart_display)     
+
+# from django.shortcuts import render, redirect, 
+# from .models import Buy, Category
+# from django.contrib.auth.decorators import login_required
+
+# @login_required
+# def contact_vendor(request, id):
+#     category = get_object_or_404(Category, id=id) 
+
+#     if request.method == 'POST':
+#         customer_name = request.POST.get('name')
+#         customer_email = request.POST.get('email')
+#         customer_phone = request.POST.get('phone')
+
+#         buy = Buy.objects.create(
+#             user=request.user,
+#             category=category,
+#             customer_name=customer_name,
+#             customer_email=customer_email,
+#             customer_phone=customer_phone,
+#             price=category.price 
+#         )
+#         buy.save()
+
+#         return redirect('user_view_bookings')
+
+#     return render(request, 'user/contact_vendor.html', {
+#         'category': category,
+#     })
+
+
+# def contact_vendor(request, id):
+#     destination_wedding = get_object_or_404(DestinationWedding, id=id)
+#     if request.method == 'POST':
+#         customer_name = request.POST.get('name')
+#         customer_email = request.POST.get('email')
+#         customer_phone = request.POST.get('phone')
+#         message = request.POST.get('message', '') 
+
+#         buy = Buy.objects.create(
+#             user=request.user,
+#             customer_name=customer_name,
+#             customer_email=customer_email,
+#             customer_phone=customer_phone,
+#             message=message,
+#             status='Pending',
+#         )
+#         buy.save()
+
+
+#         return redirect('user_view_bookings')  
+
+#     return render(request, 'user/contact_vendor.html', {
+#         'destination_wedding': destination_wedding,
+#     })
+
+
+
+def contact_vendor(request, id):
+    destination_wedding = get_object_or_404(DestinationWedding, id=id)
+    if request.method == 'POST':
+        customer_name = request.POST.get('name')
+        customer_email = request.POST.get('email')
+        customer_phone = request.POST.get('phone')
+        message = request.POST.get('message', '')  # Optional field
+
+        # Save the Buy entry
+        buy = Buy.objects.create(
+            user=request.user,
+            category=destination_wedding.category,  # Assuming DestinationWedding has a category field
+            customer_name=customer_name,
+            customer_email=customer_email,
+            customer_phone=customer_phone,
+            message=message,
+            status='Pending',
+        )
+        buy.save()
+
+        # return redirect('user_home')  
+
+    return render(request, 'user/contact_vendor.html', {
+        'destination_wedding': destination_wedding,
+    })
