@@ -193,3 +193,23 @@ def contact_vendor(request, id):
     return render(request, 'user/contact_vendor.html', {
         'destination_wedding': destination_wedding,
     })
+
+def user_view_bookings(request):
+    if 'user' in request.session:
+        user = request.user
+        data = Buy.objects.filter(user=user).order_by('-purchase_date')  # Retrieve bookings for the logged-in user
+        for booking in data:
+            booking.is_cancellable = (date.today() - booking.purchase_date) <= timedelta(days=2)
+        return render(request, 'user/bookings.html', {'data': data})
+    else:
+        return redirect('login')  
+
+def cancel_booking(request, booking_id):
+    booking = get_object_or_404(Buy, id=booking_id, user=request.user)
+    if booking.status == 'Pending' and (date.today() - booking.purchase_date).days <= 2:
+        booking.status = 'Cancelled'
+        booking.save()
+        messages.success(request, "Booking has been canceled successfully.")
+    else:
+        messages.error(request, "Booking cannot be canceled.")
+    return redirect('user_view_bookings')

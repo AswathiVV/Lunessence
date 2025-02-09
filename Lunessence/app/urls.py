@@ -13,6 +13,8 @@ urlpatterns=[
 
     # path('contact_vendor/<id>', views.contact_vendor, name='contact_vendor'),
     # path('cancel-order/<int:id>/', views.cancel_order, name='cancel_order'),
-
+    # path('bookings/', views.booking_list, name='booking_list'),
+    path('view_bookings/', views.user_view_bookings, name='user_view_bookings'),
+    path('cancel-booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
 
 ]
