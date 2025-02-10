@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Items Selection and Summary</title>
+</head>
+<body>
+    <h1>Select Items for Your Event</h1>
+    
+    <!-- Form for selecting items -->
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <label for="guest_count">Number of Guests:</label>
+            <input type="number" name="guest_count" id="guest_count" value="{{ guest_count|default:1 }}" min="1" required>
+        </div>
+
+        <h2>Categories</h2>
+        {% for category in categories %}
+        <div>
+            <h3>{{ category.name }} ({{ category.price }} per person)</h3>
+            {% for item in category.item_set.all %}
+            <div>
+                <input 
+                    type="checkbox" 
+                    name="items" 
+                    value="{{ item.id }}" 
+                    id="item-{{ item.id }}" 
+                    {% if order_items and item.id in order_items %}checked{% endif %}
+                >
+                <label for="item-{{ item.id }}">{{ item.name }}</label>
+                <input 
+                    type="number" 
+                    name="quantities" 
+                    placeholder="Quantity" 
+                    value="{{ quantities|get_item:item.id|default:1 }}" 
+                    min="1"
+                >
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+
+        <button type="submit">Calculate Total</button>
+    </form>
+
+    <!-- Order summary -->
+    {% if order %}
+    <h1>Order Summary</h1>
+
+    <h2>Guest Count: {{ order.guest_count }}</h2>
+
+    <h3>Selected Items:</h3>
+    <ul>
+        {% for order_item in order.orderitem_set.all %}
+        <li>
+            {{ order_item.item.name }} - Quantity: {{ order_item.quantity }} 
+            ({{ order_item.item.category.price }} per person)
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Total Price: {{ order.total_price }}</h2>
+
+    <a href="/">Back to Home</a>
+    {% endif %}
+</body>
+</html>

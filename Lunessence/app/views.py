@@ -213,3 +213,4 @@ def cancel_booking(request, booking_id):
     else:
         messages.error(request, "Booking cannot be canceled.")
     return redirect('user_view_bookings')
+
