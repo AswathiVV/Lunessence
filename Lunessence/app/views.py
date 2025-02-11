@@ -168,31 +168,29 @@ def view_des_wed(req,id):
 
 
 
-def contact_vendor(request, id):
-    destination_wedding = get_object_or_404(DestinationWedding, id=id)
-    if request.method == 'POST':
-        customer_name = request.POST.get('name')
-        customer_email = request.POST.get('email')
-        customer_phone = request.POST.get('phone')
-        message = request.POST.get('message', '')  # Optional field
+# def contact_vendor(request, id):
+#     destination_wedding = get_object_or_404(DestinationWedding, id=id)
+#     if request.method == 'POST':
+#         customer_name = request.POST.get('name')
+#         customer_email = request.POST.get('email')
+#         customer_phone = request.POST.get('phone')
+#         message = request.POST.get('message', '') 
 
-        # Save the Buy entry
-        buy = Buy.objects.create(
-            user=request.user,
-            category=destination_wedding.category,  # Assuming DestinationWedding has a category field
-            customer_name=customer_name,
-            customer_email=customer_email,
-            customer_phone=customer_phone,
-            message=message,
-            status='Pending',
-        )
-        buy.save()
+#         buy = Buy.objects.create(
+#             user=request.user,
+#             category=destination_wedding.category,  
+#             customer_name=customer_name,
+#             customer_email=customer_email,
+#             customer_phone=customer_phone,
+#             message=message,
+#             status='Pending',
+#         )
+#         buy.save()
 
-        # return redirect('user_home')  
 
-    return render(request, 'user/contact_vendor.html', {
-        'destination_wedding': destination_wedding,
-    })
+#     return render(request, 'user/contact_vendor.html', {
+#         'destination_wedding': destination_wedding,
+#     })
 
 def user_view_bookings(request):
     if 'user' in request.session:
@@ -213,4 +211,125 @@ def cancel_booking(request, booking_id):
     else:
         messages.error(request, "Booking cannot be canceled.")
     return redirect('user_view_bookings')
+
+def item_category_list(req):
+    categories = ItemCategory.objects.all()
+    return render(req, 'user/categories.html', {'categories': categories})
+
+
+# def contact_vendor(request):
+#     if request.method == "POST":
+#         customer_name = request.POST.get("name")
+#         customer_email = request.POST.get("email")
+#         customer_phone = request.POST.get("phone")
+#         message = request.POST.get("message", "")
+
+#         wedding_id = request.POST.get("wedding_id")
+#         invitation_id = request.POST.get("invitation_id")
+#         item_id = request.POST.get("item_id")
+
+#         buy = Buy.objects.create(
+#             user=request.user,
+#             customer_name=customer_name,
+#             customer_email=customer_email,
+#             customer_phone=customer_phone,
+#             message=message,
+#             status="Pending",
+#         )
+
+#         if wedding_id:
+#             buy.wedding = get_object_or_404(DestinationWedding, id=wedding_id)
+#         if invitation_id:
+#             buy.invitation = get_object_or_404(InvitationCard, id=invitation_id)
+#         buy.save()  
+
+#         if item_id:
+#             item = get_object_or_404(Item, id=item_id)
+#             BuyItem.objects.create(buy=buy, item=item, quantity=1)
+
+#         return redirect("user_home")  
+
+#     return render(request, "user/contact_vendor.html")
+
+
+
+# def contact_vendor(request):
+#     if request.method == "POST":
+#         customer_name = request.POST.get("name")
+#         customer_email = request.POST.get("email")
+#         customer_phone = request.POST.get("phone")
+#         message = request.POST.get("message", "")
+
+#         wedding_id = request.POST.get("wedding_id")
+#         invitation_id = request.POST.get("invitation_id")
+#         item_ids = request.POST.getlist("item_ids")  
+
+#         buy = Buy.objects.create(
+#             user=request.user,
+#             customer_name=customer_name,
+#             customer_email=customer_email,
+#             customer_phone=customer_phone,
+#             message=message,
+#             status="Pending",
+#         )
+
+#         if wedding_id:
+#             buy.wedding = get_object_or_404(DestinationWedding, id=wedding_id)
+#         if invitation_id:
+#             buy.invitation = get_object_or_404(InvitationCard, id=invitation_id)
+
+#         buy.save()  
+
+#         for item_id in item_ids:
+#             item = get_object_or_404(Item, id=item_id)
+#             BuyItem.objects.create(buy=buy, item=item, quantity=1)
+
+#         return redirect("user_view_bookings")  
+
+#     return render(request, "user/contact_vendor.html")
+
+def contact_vendor(request, id=None):  # Accept id as an optional parameter
+    if request.method == "POST":
+        # Retrieve user input
+        customer_name = request.POST.get("name")
+        customer_email = request.POST.get("email")
+        customer_phone = request.POST.get("phone")
+        message = request.POST.get("message", "")
+
+        # Retrieve IDs for weddings, invitations, and items
+        wedding_id = id  # Use the ID from the URL if provided
+        invitation_id = request.POST.get("invitation_id")
+        item_ids = request.POST.getlist("item_ids")  # Multiple item IDs
+
+        # Create the Buy instance
+        buy = Buy.objects.create(
+            user=request.user,
+            customer_name=customer_name,
+            customer_email=customer_email,
+            customer_phone=customer_phone,
+            message=message,
+            status="Pending",
+        )
+
+        # Assign wedding or invitation to Buy, if applicable
+        if wedding_id:
+            buy.wedding = get_object_or_404(DestinationWedding, id=wedding_id)
+        if invitation_id:
+            buy.invitation = get_object_or_404(InvitationCard, id=invitation_id)
+
+        buy.save()  # Save the Buy object after assigning any foreign key relationships
+
+        # Handle multiple selected items
+        for item_id in item_ids:
+            item = get_object_or_404(Item, id=item_id)
+            BuyItem.objects.create(buy=buy, item=item, quantity=1)
+
+        return redirect("user_view_bookings")  # Redirect to user home page after processing
+
+    # If the request is GET, render the form
+    context = {"items": []}  # Provide the required context
+    if id:
+        context["wedding"] = get_object_or_404(DestinationWedding, id=id)
+    return render(request, "user/contact_vendor.html", context)
+
 

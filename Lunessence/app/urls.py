@@ -7,9 +7,12 @@ urlpatterns=[
     path('logout',views.shop_logout),
 
     path('destination_wedding',views.destination_wedding),
+    path('item_category_list',views.item_category_list),
 
     path('view_des_wed/<id>',views.view_des_wed),   
     path('contact-vendor/<int:id>/', views.contact_vendor, name='contact_vendor'),
+    path('contact-vendor/', views.contact_vendor, name='contact_vendor'),
+
 
     # path('contact_vendor/<id>', views.contact_vendor, name='contact_vendor'),
     # path('cancel-order/<int:id>/', views.cancel_order, name='cancel_order'),
