@@ -8,6 +8,10 @@ urlpatterns=[
 
     path('destination_wedding',views.destination_wedding),
     path('item_category_list',views.item_category_list),
+    path('invitation_list',views.invitation_list),
+    path('cancel_booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
+
+
 
     path('view_des_wed/<id>',views.view_des_wed),   
     path('contact-vendor/<int:id>/', views.contact_vendor, name='contact_vendor'),

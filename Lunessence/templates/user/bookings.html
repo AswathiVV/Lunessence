@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -41,4 +41,80 @@
         </div>
     </div>
 </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Your Bookings</h2>
+        <div class="row">
+            {% for booking in data %}
+            <div class="col-12 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">
+                            {% if booking.wedding %}
+                                {{ booking.wedding.name }}
+                            {% elif booking.invitation %}
+                                {{ booking.invitation.name }}
+                            {% endif %}
+                        </h4>
+                        
+                        {% if booking.wedding %}
+                            <p><strong>Wedding:</strong> {{ booking.wedding.name }}</p>
+                            <img src="{{ booking.wedding.img.url }}" alt="{{ booking.wedding.name }}" style="width: 150px; height: 150px;">
+                        {% endif %}
+                        
+                        {% if booking.invitation %}
+                            <p><strong>Invitation Card:</strong> {{ booking.invitation.name }}</p>
+                            <img src="{{ booking.invitation.img1.url }}" alt="{{ booking.invitation.name }}" style="width: 150px; height: 150px;">
+                        {% endif %}
+                        
+                        <p><strong>Customer Name:</strong> {{ booking.customer_name }}</p>
+                        <p><strong>Email:</strong> {{ booking.customer_email }}</p>
+                        <p><strong>Phone:</strong> {{ booking.customer_phone }}</p>
+                        <p><strong>Message:</strong> {{ booking.message|default:"No message provided" }}</p>
+                        <p><strong>Purchase Date:</strong> {{ booking.purchase_date }}</p>
+                        <p><strong>Status:</strong> {{ booking.status }}</p>
+                        
+                        <!-- Display purchased items -->
+                        {% if booking.buyitem_set.all %}
+                            <h5>Purchased Items:</h5>
+                            <ul>
+                                {% for item in booking.buyitem_set.all %}
+                                    <li>
+                                        {{ item.item.name }} ({{ item.quantity }}) - ${{ item.calculate_item_price }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        
+                        {% if booking.status == 'Pending' and booking.is_cancellable %}
+                        <form method="POST" action="{% url 'cancel_booking' booking.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Cancel Booking</button>
+                        </form>
+                        {% else %}
+                        <p class="text-muted">Booking cannot be canceled.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No bookings found.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    
+</body>
 </html>
+

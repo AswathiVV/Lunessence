@@ -89,7 +89,7 @@
                     totalPrice += parseFloat(checkbox.dataset.price);
                 }
             });
-            document.getElementById('total-price').textContent = `Total Price: $${totalPrice.toFixed(2)}`;
+            document.getElementById('total-price').textContent = `Total Price: ₹${totalPrice.toFixed(2)}`;
         }
 
         // Function to handle form submission
@@ -139,7 +139,7 @@
                 </div>
             </div>
         {% endfor %}
-        <p id="total-price" class="total-price">Total Price: $0.00</p>
+        <p id="total-price" class="total-price">Total Price: ₹0.00</p>
         <!-- <form id="buy-form" method="POST" action="{% url 'contact_vendor' %}">
             {% csrf_token %}
             <button type="button" class="btn-buy" onclick="submitForm()">Buy</button>
