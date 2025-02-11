@@ -80,7 +80,6 @@
     window.location.href = url;
 }
 
-        // Function to update total price based on selected items
         function updateTotalPrice() {
             const checkboxes = document.querySelectorAll('.item-checkbox');
             let totalPrice = 0;
@@ -92,7 +91,6 @@
             document.getElementById('total-price').textContent = `Total Price: ₹${totalPrice.toFixed(2)}`;
         }
 
-        // Function to handle form submission
         function submitForm() {
             const checkboxes = document.querySelectorAll('.item-checkbox');
             const selectedItems = [];
@@ -102,7 +100,6 @@
                 }
             });
             if (selectedItems.length > 0) {
-                // Create a hidden form input for selected items
                 const form = document.getElementById('buy-form');
                 const hiddenInput = document.createElement('input');
                 hiddenInput.type = 'hidden';
@@ -110,7 +107,6 @@
                 hiddenInput.value = selectedItems.join(',');
                 form.appendChild(hiddenInput);
 
-                // Submit the form
                 form.submit();
             } else {
                 alert('Please select at least one item.');
@@ -140,13 +136,12 @@
             </div>
         {% endfor %}
         <p id="total-price" class="total-price">Total Price: ₹0.00</p>
-        <!-- <form id="buy-form" method="POST" action="{% url 'contact_vendor' %}">
-            {% csrf_token %}
-            <button type="button" class="btn-buy" onclick="submitForm()">Buy</button>
-        </form> -->
+    
         <button type="button" class="btn btn-primary" onclick="redirectToContactVendor()">Buy Selected Items</button>
 
     </div>
 </body>
-</html>
+</html> -->
 
+
+ 
