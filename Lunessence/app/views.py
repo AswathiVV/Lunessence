@@ -89,6 +89,280 @@ def add_deswedding(req):
 
     return render(req, 'shop/add_deswedding.html')
 
+def add_category(req):
+    if req.method == "POST":
+        name = req.POST.get("name")
+        price = req.POST.get("price") 
+        img = req.FILES.get("img")
+
+        if not all([name, price, img]):
+            return HttpResponse("All fields are required.", status=400)
+
+        category = ItemCategory.objects.create(name=name, price=price, img=img)
+        category.save()
+        return redirect(shop_home)  
+
+    return render(req, "shop/add_item.html")
+
+def add_item(req):
+    if req.method == "POST":
+        category_id = req.POST.get("category")
+        name = req.POST.get("name")
+        img = req.FILES.get("img")
+
+        if not all([category_id, name, img]):
+            return HttpResponse("All fields are required.", status=400)
+
+        category = ItemCategory.objects.get(id=category_id)
+        item = Item.objects.create(category=category, name=name, img=img)
+        item.save()
+        return redirect(shop_home) 
+
+    categories = ItemCategory.objects.all()
+    return render(req, "shop/add_item.html", {"categories": categories})
+
+
+def add_invitation_category(req):
+    if req.method == "POST":
+        name = req.POST.get("name")
+        img = req.FILES.get("img")
+
+        if not all([name, img]):
+            return HttpResponse("All fields are required.", status=400)
+
+        category = InvitationCategory.objects.create(name=name, img=img)
+        category.save()
+        return redirect(shop_home) 
+
+    categories = InvitationCategory.objects.all()
+    return render(req, "shop/add_invitation.html", {"categories": categories})
+
+def add_invitation_card(req):
+    if req.method == "POST":
+        category_id = req.POST.get("category")
+        name = req.POST.get("name")
+        price = req.POST.get("price")
+        size = req.POST.get("size")
+        img1 = req.FILES.get("img1")
+        img2 = req.FILES.get("img2")
+        img3 = req.FILES.get("img3")
+        img4 = req.FILES.get("img4")
+
+        if not all([category_id, name, price, size, img1]):
+            return HttpResponse("All required fields must be filled.", status=400)
+
+        category = InvitationCategory.objects.get(id=category_id)
+        invitation_card = InvitationCard.objects.create(
+            category=category, name=name, price=price, size=size,
+            img1=img1, img2=img2, img3=img3, img4=img4
+        )
+        invitation_card.save()
+        return redirect(shop_home)  
+
+    categories = InvitationCategory.objects.all()
+    return render(req, "shop/add_invitation.html", {"categories": categories})
+
+
+def shop_destination_weddings(req):
+    weddings = DestinationWedding.objects.all()
+    return render(req, "shop/des_wedding.html", {"weddings": weddings})
+
+def edit_wedding(req, wedding_id):
+    wedding = get_object_or_404(DestinationWedding, pk=wedding_id)
+
+    if req.method == 'POST':
+        name = req.POST.get('name')
+        location = req.POST.get('location')
+        price = req.POST.get('package_price')
+        about = req.POST.get('about')
+        file = req.FILES.get('img')
+
+        wedding.name = name
+        wedding.location = location
+        wedding.package_price = price
+        wedding.about = about
+
+        if file:
+            wedding.img = file  
+
+        wedding.save()
+
+        return redirect(shop_destination_weddings) 
+
+    return render(req, 'shop/edit_wedding.html', {'wedding': wedding})
+
+
+def delete_wedding(req, wedding_id):
+    get_object_or_404(DestinationWedding, id=wedding_id).delete()
+    return redirect(shop_destination_weddings)
+
+
+# def shop_items(req):
+#     categories = ItemCategory.objects.all()
+#     items = Item.objects.all()
+#     return render(req, "shop/items.html", {"categories": categories, "items": items})
+
+# def edit_category(req, category_id):
+#     category = get_object_or_404(ItemCategory, pk=category_id)
+
+#     if req.method == 'POST':
+#         category.name = req.POST.get('name')
+#         category.price = req.POST.get('price')
+#         file = req.FILES.get('img')
+
+#         if file:
+#             category.img = file
+
+#         category.save()
+#         return redirect(shop_items)
+
+#     return render(req, "shop/edit_item.html", {"category": category})
+
+# def delete_category(req, category_id):
+#     get_object_or_404(ItemCategory, pk=category_id).delete()
+#     return redirect(shop_items)
+
+# def edit_item(req, item_id):
+#     item = get_object_or_404(Item, pk=item_id)
+
+#     if req.method == 'POST':
+#         item.name = req.POST.get('name')
+#         file = req.FILES.get('img')
+
+#         if file:
+#             item.img = file
+
+#         item.save()
+#         return redirect(shop_items)
+
+#     categories = ItemCategory.objects.all()
+#     return render(req, "shop/edit_item.html", {"item": item, "categories": categories})
+
+
+
+# def delete_item(req, item_id):
+#     get_object_or_404(Item, pk=item_id).delete()
+#     return redirect(shop_items)
+
+def shop_items(req):
+    categories = ItemCategory.objects.all()
+    items = Item.objects.all()
+    return render(req, "shop/items.html", {"categories": categories, "items": items})
+
+# Edit Category
+# def edit_category(req, category_id):
+#     category = get_object_or_404(ItemCategory, pk=category_id)
+
+#     if req.method == 'POST':
+#         category.name = req.POST.get('name')
+#         category.price = req.POST.get('price')
+#         file = req.FILES.get('img')
+
+#         if file:
+#             category.img = file
+
+#         category.save()
+#         return redirect(shop_items)
+
+#     return render(req, "shop/edit_item.html", {"category": category, "edit_type": "category"})
+
+# Delete Category
+def delete_category(req, category_id):
+    get_object_or_404(ItemCategory, pk=category_id).delete()
+    return redirect(shop_items)
+
+# def edit_item(req, item_id):
+#     item = get_object_or_404(Item, pk=item_id)
+
+#     if req.method == 'POST':
+#         item.name = req.POST.get('name')
+#         file = req.FILES.get('img')
+
+#         if file:
+#             item.img = file
+
+#         item.save()
+#         return redirect(shop_items)
+
+#     categories = ItemCategory.objects.all()
+#     return render(req, "shop/edit_item.html", {"item": item, "categories": categories, "edit_type": "item"})
+
+# Delete Item
+def delete_item(req, item_id):
+    get_object_or_404(Item, pk=item_id).delete()
+    return redirect(shop_items)
+
+
+def add_categoryitem(req, category_id):
+    category = get_object_or_404(ItemCategory, pk=category_id)
+
+    if req.method == 'POST':
+        name = req.POST.get('name')
+        file = req.FILES.get('img')
+
+        if name and file:
+            Item.objects.create(category=category, name=name, img=file)
+            return redirect('shop_items')
+
+    return render(req, "shop/add_item.html", {"category": category})
+
+# def edit_item(req, item_id):
+#     item = get_object_or_404(Item, pk=item_id)
+#     categories = ItemCategory.objects.all() 
+
+#     if req.method == 'POST':
+#         item.name = req.POST.get('name')
+#         file = req.FILES.get('img')
+#         if file:
+#             item.img = file
+#         item.save()
+#         return redirect(shop_items)
+
+#     return render(req, "shop/edit_item.html", {"item": item, "categories": categories, "edit_type": "item"})
+
+def edit_item(req, item_id):
+    item = get_object_or_404(Item, pk=item_id)
+    
+    # Fetch category only if item belongs to one (adjust as per your DB structure)
+    category = item.category if hasattr(item, 'category') else None 
+
+    if req.method == 'POST':
+        item.name = req.POST.get('name')
+        file = req.FILES.get('img')
+
+        if file:
+            item.img = file
+
+        item.save()
+        return redirect(shop_items)
+
+    categories = ItemCategory.objects.all()
+    return render(req, "shop/edit_item.html", {
+        "item": item,
+        "category": category,  # Ensure category is passed
+        "categories": categories,
+        "edit_type": "item"
+    })
+
+# Edit Category
+def edit_category(req, category_id):
+    category = get_object_or_404(ItemCategory, pk=category_id)
+
+    if req.method == 'POST':
+        category.name = req.POST.get('category_name')  # ✅ Fixed field name
+        category.price = req.POST.get('category_price')  # ✅ Fixed field name
+        file = req.FILES.get('category_img')  # ✅ Fixed field name
+
+        if file:
+            category.img = file
+
+        category.save()
+        return redirect('shop_items')  # ✅ Fixed redirect
+
+    categories = ItemCategory.objects.all()
+    return render(req, "shop/edit_item.html", {"category": category, "categories": categories, "edit_type": "category"})
+
+
 # #------------------------------------- User--------------------------------------------------------------
 
 def user_home(req):
@@ -98,11 +372,11 @@ def user_home(req):
         return redirect(shop_login)
     
 def destination_wedding(request):
-    if 'user' in request.session: 
+    # if 'user' in request.session: 
         weddings = DestinationWedding.objects.all() 
         return render(request, 'user/destination_wedding.html', {'weddings': weddings})
-    else:
-        return redirect('login')  
+    # else:
+        # return redirect(login)  
     
     
 def view_des_wed(req,id):
