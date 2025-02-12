@@ -63,6 +63,31 @@ def shop_home(req):
         return render(req,'shop/shop_home.html')
     else:
         return redirect(shop_login)
+    
+    
+def add_deswedding(req):
+    if req.method == 'POST':
+        name = req.POST['name']
+        about = req.POST['about']
+        file = req.FILES['img']
+        location = req.POST['location']
+        package_price = req.POST['package_price']
+
+        if not all([name, about, file, location, package_price]):
+            return HttpResponse("All fields are required.", status=400)
+
+        data = DestinationWedding.objects.create(
+            name=name, 
+            about=about, 
+            img=file, 
+            location=location, 
+            package_price=package_price
+        )
+        
+        data.save()
+        return redirect(shop_home)  
+
+    return render(req, 'shop/add_deswedding.html')
 
 # #------------------------------------- User--------------------------------------------------------------
 
@@ -79,6 +104,7 @@ def destination_wedding(request):
     else:
         return redirect('login')  
     
+    
 def view_des_wed(req,id):
      if 'user' in req.session:
         user=User.objects.get(username=req.session['user'])
@@ -86,8 +112,16 @@ def view_des_wed(req,id):
           
         return render(req,'user/des_wed_details.html',{'DestinationWedding':weddings}) 
      else:
-         return redirect(shop_home)   
+         return redirect(shop_home)  
+     
+def wedding_planners(req):
+    return render(req,'user/event_planners.html')
+     
+def photographers(req):
+    return render(req,'user/photographers.html')
 
+def beauty(req):
+    return render(req,'user/beauty.html')
 # def user_view_bookings(request):
 #     if 'user' in request.session:
 #         user = request.user
@@ -98,12 +132,28 @@ def view_des_wed(req,id):
 #     else:
 #         return redirect('login')  
 
+# def user_view_bookings(request):
+#     if 'user' in request.session:
+#         user = request.user
+#         data = Buy.objects.filter(user=user).prefetch_related('buyitem_set__item__category').order_by('-purchase_date')
+#         for booking in data:
+#             booking.is_cancellable = (date.today() - booking.purchase_date) <= timedelta(days=2)
+#         return render(request, 'user/bookings.html', {'data': data})
+#     else:
+#         return redirect('login')
+
 def user_view_bookings(request):
     if 'user' in request.session:
         user = request.user
         data = Buy.objects.filter(user=user).prefetch_related('buyitem_set__item__category').order_by('-purchase_date')
         for booking in data:
             booking.is_cancellable = (date.today() - booking.purchase_date) <= timedelta(days=2)
+
+            # Debugging logs to check if wedding and invitation exist
+            print("Booking ID:", booking.id)
+            print("Wedding:", booking.wedding)  # Should print the related DestinationWedding object if exists
+            print("Invitation:", booking.invitation)  # Should print the related InvitationCard object if exists
+            
         return render(request, 'user/bookings.html', {'data': data})
     else:
         return redirect('login')
@@ -167,6 +217,7 @@ def contact_vendor(request, id=None, type=None):
         context["invitation"] = get_object_or_404(InvitationCard, id=id)
 
     return render(request, "user/contact_vendor.html", context)
+
 
 
 

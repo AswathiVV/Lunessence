@@ -161,7 +161,7 @@
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
+    <!-- <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Lunessence</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -173,19 +173,7 @@
                         <a class="nav-link" href="#">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Services</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Menu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Contact</a>
+                        <a class="nav-link" href="#">Add</a>
                     </li>
                     <li class="nav-item">
                         <a class="btn btn-book" href="view_bookings">Bookings</a>
@@ -198,7 +186,42 @@
                 </ul>
             </div>
         </div>
+    </nav> -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Lunessence</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Add
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="add_deswedding">Add Destination Wedding</a></li><hr>
+                            <li><a class="dropdown-item" href="#">Add Invitation Card</a></li><hr>
+                            <li><a class="dropdown-item" href="#">Add Items</a></li>
+                        </ul>
+                    </li>
+    
+                    <li class="nav-item">
+                        <a class="btn btn-book" href="view_bookings">Bookings</a>
+                    </li>
+    
+                    <li class="nav-item">
+                        <a class="btn btn-logout" href="logout">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </nav>
+    
 
     <div class="hero">
         <div class="hero-text fade-in">
@@ -218,9 +241,10 @@
         <div class="wedding-grid">
             <!-- <a href="destination_wedding"> -->
             <div class="wedding-card">
-                <a href="destination_wedding">
+                <a href="add_deswedding">
                 <img src="{% static 'img/v3.jpg' %}" alt="Venues">
                 <div class="text-overlay">
+                    <h5>+</h5>
                     <h5>Venues</h5>
                 </div>
                 </a>

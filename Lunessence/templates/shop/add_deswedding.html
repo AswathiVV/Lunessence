@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/css/edit.css' %}">
+</head>
+<body>
+    <h1 style="text-align: center;">Add Product</h1><br><br>
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="name" id="" placeholder="name">
+        <input type="text" name="about" id="" placeholder="about">
+        <input type="text" name="location" id="" placeholder="location">
+        <input type="file" name="img" id="">
+        <input type="number" name="package_price" id="" placeholder="Price">
+        
+        <input type="submit" value="Add">
+        
+    </form>
+</body>
+</html>
