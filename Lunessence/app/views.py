@@ -79,7 +79,6 @@ def destination_wedding(request):
     else:
         return redirect('login')  
     
-    
 def view_des_wed(req,id):
      if 'user' in req.session:
         user=User.objects.get(username=req.session['user'])
@@ -99,15 +98,6 @@ def view_des_wed(req,id):
 #     else:
 #         return redirect('login')  
 
-# def user_view_bookings(request):
-#     if 'user' in request.session:
-#         user = request.user
-#         data = Buy.objects.filter(user=user).prefetch_related('buyitem_set__item__category').order_by('-purchase_date')
-#         for booking in data:
-#             booking.is_cancellable = (date.today() - booking.purchase_date) <= timedelta(days=2)
-#         return render(request, 'user/bookings.html', {'data': data})
-#     else:
-#         return redirect('login')
 def user_view_bookings(request):
     if 'user' in request.session:
         user = request.user
@@ -134,82 +124,6 @@ def item_category_list(req):
     return render(req, 'user/categories.html', {'categories': categories})
 
 
-# def contact_vendor(request, id=None): 
-#     if request.method == "POST":
-#         customer_name = request.POST.get("name")
-#         customer_email = request.POST.get("email")
-#         customer_phone = request.POST.get("phone")
-#         message = request.POST.get("message", "")
-
-#         wedding_id = id  
-#         invitation_id = request.POST.get("invitation_id")
-#         item_ids = request.POST.getlist("item_ids") 
-
-#         buy = Buy.objects.create(
-#             user=request.user,
-#             customer_name=customer_name,
-#             customer_email=customer_email,
-#             customer_phone=customer_phone,
-#             message=message,
-#             status="Pending",
-#         )
-
-#         if wedding_id:
-#             buy.wedding = get_object_or_404(DestinationWedding, id=wedding_id)
-#         if invitation_id:
-#             buy.invitation = get_object_or_404(InvitationCard, id=invitation_id)
-
-#         buy.save() 
-
-#         for item_id in item_ids:
-#             item = get_object_or_404(Item, id=item_id)
-#             BuyItem.objects.create(buy=buy, item=item, quantity=1)
-
-#         return redirect("user_view_bookings")
-
-#     context = {"items": []} 
-#     if id:
-#         context["wedding"] = get_object_or_404(DestinationWedding, id=id)
-#     return render(request, "user/contact_vendor.html", context)
-
-# def contact_vendor(request, id=None): 
-#     if request.method == "POST":
-#         customer_name = request.POST.get("name")
-#         customer_email = request.POST.get("email")
-#         customer_phone = request.POST.get("phone")
-#         message = request.POST.get("message", "")
-
-#         wedding_id = request.POST.get("wedding_id")
-#         invitation_id = request.POST.get("invitation_id")
-#         item_ids = request.POST.getlist("item_ids") 
-
-#         buy = Buy.objects.create(
-#             user=request.user,
-#             customer_name=customer_name,
-#             customer_email=customer_email,
-#             customer_phone=customer_phone,
-#             message=message,
-#             status="Pending",
-#         )
-
-#         if wedding_id:
-#             buy.wedding = get_object_or_404(DestinationWedding, id=wedding_id)
-#         if invitation_id:
-#             buy.invitation = get_object_or_404(InvitationCard, id=invitation_id)
-
-#         buy.save()
-
-#         for item_id in item_ids:
-#             item = get_object_or_404(Item, id=item_id)
-#             BuyItem.objects.create(buy=buy, item=item, quantity=1)
-
-#         return redirect("user_view_bookings")
-
-#     items = Item.objects.all()
-#     context = {"items": items}
-#     if id:
-#         context["wedding"] = get_object_or_404(DestinationWedding, id=id)
-#     return render(request, "user/contact_vendor.html", context)
 
 def contact_vendor(request, id=None, type=None): 
     if request.method == "POST":
