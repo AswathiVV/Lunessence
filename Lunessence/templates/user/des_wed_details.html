@@ -97,15 +97,14 @@
             margin-top: 30px;
         }
 
-        .btn-secondary,.btn-primary {
-            padding: 15px 30px;
+        .btn-primary {
+            padding: 10px 30px;
             font-size: 1.2rem;
             font-weight: bold;
             border-radius: 50px;
             transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
+            /* display: flex; */
             align-items: center;
-            gap: 10px;
             font-family: 'Playfair Display', serif;
         }
 
@@ -114,7 +113,7 @@
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
 
-        .btn-secondary {
+        /* .btn-secondary {
             background-color: #f0f0f0;
             color: #333;
             border: 2px solid #ddd;
@@ -124,13 +123,14 @@
             background-color: #333;
             color: #fff;
             border-color: #333;
-        }
+        } */
 
         .btn-primary {
             background: linear-gradient(45deg, #6a5acd, #836fff);
             color: white;
             box-shadow: 0 6px 15px rgba(106, 90, 205, 0.3);
         }
+       
 
         .btn-primary:hover {
             background: linear-gradient(45deg, #483d8b, #6a5acd);
@@ -230,9 +230,9 @@
                             <i class="bi bi-heart-fill"></i> Go to wishlist
                         </a>
                     {% else %}
-                        <a href="../add_to_cart/{{ DestinationWedding.id }}" class="btn btn-secondary">
+                        <!-- <a href="../add_to_cart/{{ DestinationWedding.id }}" class="btn btn-secondary">
                             <i class="bi bi-heart-fill"></i> Save to Wishlist
-                        </a>
+                        </a> -->
     
                         {% if DestinationWedding and DestinationWedding.id %}
                             <a href="{% url 'contact_vendor' DestinationWedding.id 'wedding' %}" class="btn btn-primary">

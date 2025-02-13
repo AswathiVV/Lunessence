@@ -45,9 +45,7 @@ urlpatterns=[
     path('cancel_booking/<int:booking_id>/', views.cancel_booking, name='cancel_booking'),
 
     path('view_des_wed/<id>',views.view_des_wed),   
-
-    # path('contact_vendor/<int:id>/<str:type>/', views.contact_vendor, name='contact_vendor'),  
-    # path('contact_vendor/<int:id>/', views.contact_vendor, name='contact_vendor'),      
+      
     path('contact_vendor/', views.contact_vendor, name='contact_vendor'),  
     path('contact_vendor/<int:id>/', views.contact_vendor, name='contact_vendor'),  
     path('contact_vendor/<int:id>/<str:type>/', views.contact_vendor, name='contact_vendor'),  
